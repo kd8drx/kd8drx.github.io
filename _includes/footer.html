@@ -1,6 +1,6 @@
-    <!-- Footer -->
-    <footer>
-        <div class="container text-center">
-            <p>Copyright &copy; {{ site.footer }} 20{{ site.time | date: '%y' }}</p>
-        </div>
-    </footer>
+<footer class="footer">
+  <span class="footer__copyright">&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}.</span>
+</footer>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!--<script type="text/javascript" src="{{ "js/main.js" | prepend: site.baseurl }}"></script>-->
