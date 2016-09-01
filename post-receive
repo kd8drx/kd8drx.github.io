@@ -1,0 +1,11 @@
+MAIN="kilodelta.com"
+GIT_REPO="$HOME/git/kilodelta.com"
+TMP_GIT_CLONE="$HOME/tmp/$DOMAIN"
+PUBLIC_WWW="$HOME/$DOMAIN"
+
+git clone $GIT_REPO $TMP_GIT_CLONE
+jekyll build --source $TMP_GIT_CLONE --destination $PUBLIC_WWW
+cd ~ 
+rm -rf $TMP_GIT_CLONE
+exit
+
