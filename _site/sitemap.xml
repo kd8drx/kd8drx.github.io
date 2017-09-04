@@ -1,57 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
-  
     
     <url>
-      <loc>http://kilodelta.com/categories/</loc>
+      <loc>http://localhost:4000/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/</loc>
       
-        <lastmod>2016-08-19T19:27:11-07:00</lastmod>
+        <lastmod>2017-09-04T00:00:00-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
       
       
-        <priority>0.3</priority>
+        <priority>0.5</priority>
       
     </url>
     
   
     
     <url>
-      <loc>http://kilodelta.com/feed.xml</loc>
+      <loc>http://localhost:4000/aprs</loc>
       
-        <lastmod>2016-08-19T19:27:11-07:00</lastmod>
-      
-      
-        <changefreq>monthly</changefreq>
-      
-      
-        <priority>0.3</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://kilodelta.com/</loc>
-      
-        <lastmod>2016-08-19T19:27:11-07:00</lastmod>
+        <lastmod>2017-08-01T00:00:00-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
       
       
-        <priority>0.3</priority>
+        <priority>0.5</priority>
       
     </url>
     
   
+  
     
     <url>
-      <loc>http://kilodelta.com/js/main.js</loc>
+      <loc>http://localhost:4000/feed.xml</loc>
       
-        <lastmod>2016-08-19T19:27:11-07:00</lastmod>
+        <lastmod>2017-09-04T15:56:16-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -65,10 +50,12 @@
     
   
     
+  
+    
     <url>
-      <loc>http://kilodelta.com/tags/</loc>
+      <loc>http://localhost:4000/css/main.css</loc>
       
-        <lastmod>2016-08-19T19:27:11-07:00</lastmod>
+        <lastmod>2017-09-04T15:56:16-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -77,6 +64,10 @@
         <priority>0.3</priority>
       
     </url>
+    
+  
+    
+  
     
   
 </urlset>

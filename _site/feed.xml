@@ -2,12 +2,96 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>|kiloʊˈdɛltə|</title>
-    <description>Hi! I&#39;m Will. Let&#39;s talk.</description>
-    <link>http://kilodelta.com/</link>
-    <atom:link href="http://kilodelta.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 Aug 2016 19:27:11 -0700</pubDate>
-    <lastBuildDate>Fri, 19 Aug 2016 19:27:11 -0700</lastBuildDate>
-    <generator>Jekyll v3.1.6</generator>
+    <description>Hi! I'm Will. Let's talk.</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 04 Sep 2017 15:56:16 -0700</pubDate>
+    <lastBuildDate>Mon, 04 Sep 2017 15:56:16 -0700</lastBuildDate>
+    <generator>Jekyll v3.5.2</generator>
+    
+      <item>
+        <title>Configuring a U-Blox 7 GPS Receiver on Raspbian Jessie</title>
+        <description>&lt;p&gt;One of my never-ending projects is building a packet radio “Go Kit”, &lt;a href=&quot;http://elafargue.github.io/aprs-box&quot;&gt;largely based around Ed, W6ELA’s “APRS Box” concept&lt;/a&gt;. After some extensions to add Packet BBS, &lt;a href=&quot;http://getpat.io/&quot;&gt;Winlink&lt;/a&gt;, and &lt;a href=&quot;http://www.aredn.org&quot;&gt;AREDN&lt;/a&gt; support, I’ve started calling the thing a “PiComm” unit. One day I’ll write up more on it.&lt;/p&gt;
+
+&lt;p&gt;One of the more critical components of the setup is a GPS receiver: this provides location info for APRS, and allows the Raspberry Pi (which has no Real-Time Clock) to know what time it is without accessing the internet. I grabbed &lt;a href=&quot;https://www.amazon.com/gp/product/B01N01W8SK/ref=oh_aui_search_detailpage?ie=UTF8&amp;amp;psc=1&quot;&gt;this unit&lt;/a&gt;, which had great reviews and 1-day shipping.&lt;/p&gt;
+
+&lt;p&gt;I am an impatient ham, after all.&lt;/p&gt;
+
+&lt;p&gt;Once it arrived, I installed GPSD on Raspbian Jesse and plugged it in. In theory, the system should have seen the GPS device appear on USB and automatically started GPSd. Except…it didn’t. Worried I got a dead unit, I did some digging and found the device was present by running &lt;code class=&quot;highlighter-rouge&quot;&gt;lsusb -v&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;dmesg | grep -i usb&lt;/code&gt;, and which showed the device mounting at &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/ttyACM0&lt;/code&gt;. Running &lt;code class=&quot;highlighter-rouge&quot;&gt;cat /dev/ttyACM0&lt;/code&gt; got me lots of raw GPS data, too -  the receiver was fine. So why wasn’t GPSd starting automatically?&lt;/p&gt;
+
+&lt;p&gt;On Linux the job of starting services or auto-running commands when devices are plugged in are handled by a service called &lt;code class=&quot;highlighter-rouge&quot;&gt;uDev&lt;/code&gt;, which uses a somewhat &lt;a href=&quot;http://www.reactivated.net/writing_udev_rules.html&quot;&gt;cryptic language&lt;/a&gt; to define rules that trigger actions - like auto-mounting a USB hard drive when it’s plugged in. When installed on Raspbian, GPSd automatically defines rules for many receivers in &lt;code class=&quot;highlighter-rouge&quot;&gt;/lib/udev/rules.d/60-gpsd.rules&lt;/code&gt; - but doesn’t include rules for u-Blox 7 receivers:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 5 (tested with Navilock NL-402U) [linux module: cdc_acm]
+ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a5&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
+# u-blox AG, u-blox 6 (tested with GNSS Evaluation Kit TCXO) [linux module: cdc_acm]
+ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a6&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Admittedly, that looks &lt;em&gt;pretty close&lt;/em&gt; to what I saw earlier from running &lt;code class=&quot;highlighter-rouge&quot;&gt;lsusb -v&lt;/code&gt; - but not close enough:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bus 001 Device 008: ID 1546:01a7 U-Blox AG
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               1.10
+  bDeviceClass            2 Communications
+  bDeviceSubClass         0
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0x1546 U-Blox AG
+  idProduct          0x01a7
+  bcdDevice            1.00
+  iManufacturer           1
+  iProduct                2
+  iSerial                 0
+  bNumConfigurations      1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Everything is the same with the uBlox 7 chipset, except the &lt;code class=&quot;highlighter-rouge&quot;&gt;idProduct&lt;/code&gt; is different: 01a7, vs. 01a6 or 01a5. So, to get uDev to launch GPSd automatically when I plug it in (or when the system boots), I just copy one of the existing lines and edit the &lt;code class=&quot;highlighter-rouge&quot;&gt;idProduct&lt;/code&gt; to match mine:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 7 (Tested with VANWEI VK-162)  [linux module: cdc_acm]
+ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a7&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Reload the uDev rules and et voilà! Even better, GPSd re-maps the devices entry in /dev to &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/gps0&lt;/code&gt;, which makes it easy to configure other apps like Polaric to grab position data - regardless of what receiver you use.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 04 Sep 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/</guid>
+        
+        <category>Ham_Radio</category>
+        
+        <category>Raspberry_Pi</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>My APRS Infrastructure</title>
+        <description>&lt;p&gt;As part of my interest in emergency communications, I’ve found myself rather interested in APRS, and now operate a few bits of infrastructure in San Francisco’s downtown region, which due to it’s dense nature is pretty hostile to radio in general, and low-power APRS especially.&lt;/p&gt;
+
+&lt;h2 id=&quot;tndrln&quot;&gt;TNDRLN&lt;/h2&gt;
+&lt;p&gt;A receive only iGate powered by a RTL-SDR stick, Raspberry Pi 3, and a 2-meter “bazooka” antenna mounted in the window of my apartment. Most of the time this is done using my packet “Go Kit”, but if that unit is in use elsewhere a second RaspberryPi can take over the duties.&lt;/p&gt;
+
+&lt;h2 id=&quot;fidi&quot;&gt;FIDI&lt;/h2&gt;
+&lt;p&gt;A second receive only iGate, located in San Francisco’s Financial District at Market and California on the 23rd floor. Like TNDRLN, it’s RTL-SDR based, but uses a much smaller antenna and Linux virtual machine.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Aug 2017 00:00:00 -0700</pubDate>
+        <link>http://localhost:4000/aprs</link>
+        <guid isPermaLink="true">http://localhost:4000/aprs</guid>
+        
+        <category>APRS</category>
+        
+        <category>Ham_Radio</category>
+        
+        
+        <category>Ham</category>
+        
+        <category>Radio</category>
+        
+      </item>
     
   </channel>
 </rss>
