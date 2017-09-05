@@ -3,7 +3,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/</loc>
+      <loc>http://kilodelta.com/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/</loc>
       
         <lastmod>2017-09-04T00:00:00-07:00</lastmod>
       
@@ -18,7 +18,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/aprs</loc>
+      <loc>http://kilodelta.com/aprs</loc>
       
         <lastmod>2017-08-01T00:00:00-07:00</lastmod>
       
@@ -34,9 +34,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/feed.xml</loc>
+      <loc>http://kilodelta.com/feed.xml</loc>
       
-        <lastmod>2017-09-04T15:56:16-07:00</lastmod>
+        <lastmod>2017-09-04T17:49:22-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
@@ -53,9 +53,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/css/main.css</loc>
+      <loc>http://kilodelta.com/css/main.css</loc>
       
-        <lastmod>2017-09-04T15:56:16-07:00</lastmod>
+        <lastmod>2017-09-04T17:49:22-07:00</lastmod>
       
       
         <changefreq>monthly</changefreq>
