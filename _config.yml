@@ -1,14 +1,14 @@
 # Site settings
 title: "|kiloʊˈdɛltə|"
-description: "Hi! I'm Will. Let's talk."
+description: "Hey, I'm Kiley. Let's talk."
 url: 'http://kilodelta.com'
 baseurl: ''
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
 
 author:
-  name: 'Will Davidson'
-  email: will@kilodelta.com
+  name: 'Kiley Davidson'
+  email: kiley@kilodelta.com
   twitter_username: kilodelta
   facebook_username: kilodelta
   github_username:  kd8drx

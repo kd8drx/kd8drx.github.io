@@ -10,7 +10,7 @@
   <meta name="description" content="One of my never-ending projects is building a packet radio “Go Kit”, largely based around Ed, W6ELA’s “APRS Box” concept. After some extensions to add Packet BBS, Winlink, and AREDN support, I’ve started calling the thing a “PiComm” unit. One day I’ll write up more on it.
 
 ">
-  <meta name="author" content="Will Davidson">
+  <meta name="author" content="Kiley Davidson">
   <meta name="HandheldFriendly" content="True">
   <meta name="MobileOptimized" content="320">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -54,7 +54,7 @@
   <meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
   <meta name="theme-color" content="#ffffff">
   
-  <link rel="stylesheet" href="/css/main.css?1505097905198318000">
+  <link rel="stylesheet" href="/css/main.css?1547982018373377000">
   <link rel="canonical" href="http://kilodelta.com/2017/configuring-uBlox7-GPS-on-Raspbian-Jessie/">
   <link rel="alternate" type="application/rss+xml" title="|kiloʊˈdɛltə|" href="/feed.xml">
 </head>
@@ -76,7 +76,7 @@
           <h1 class="panel-cover__title panel-title">|kiloʊˈdɛltə|</h1>
         </a>
         <hr class="panel-cover__divider">
-        <p class="panel-cover__description">Hi! I'm Will. Let's talk.</p>
+        <p class="panel-cover__description">Hey, I'm Kiley. Let's talk.</p>
         <hr class="panel-cover__divider panel-cover__divider--secondary">
 
         <div class="navigation-wrapper">
@@ -133,7 +133,7 @@
             
               <!-- Email -->
               <li class="navigation__item">
-                <a href="mailto:will@kilodelta.com" title="Email will@kilodelta.com" target="_blank">
+                <a href="mailto:kiley@kilodelta.com" title="Email kiley@kilodelta.com" target="_blank">
                   <i class="icon icon-mail"></i>
                   <span class="label">Email</span>
                 </a>
@@ -186,15 +186,14 @@
 
 <p>On Linux the job of starting services or auto-running commands when devices are plugged in are handled by a service called <code class="highlighter-rouge">uDev</code>, which uses a somewhat <a href="http://www.reactivated.net/writing_udev_rules.html">cryptic language</a> to define rules that trigger actions - like auto-mounting a USB hard drive when it’s plugged in. When installed on Raspbian, GPSd automatically defines rules for many receivers in <code class="highlighter-rouge">/lib/udev/rules.d/60-gpsd.rules</code> - but doesn’t include rules for u-Blox 7 receivers:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># u-blox AG, u-blox 5 (tested with Navilock NL-402U) [linux module: cdc_acm]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># u-blox AG, u-blox 5 (tested with Navilock NL-402U) [linux module: cdc_acm]
 ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a5", SYMLINK+="gps%n", TAG+="systemd", ENV{SYSTEMD_WANTS}="gpsdctl@%k.service"
 # u-blox AG, u-blox 6 (tested with GNSS Evaluation Kit TCXO) [linux module: cdc_acm]
 ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a6", SYMLINK+="gps%n", TAG+="systemd", ENV{SYSTEMD_WANTS}="gpsdctl@%k.service"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Admittedly, that looks <em>pretty close</em> to what I saw earlier from running <code class="highlighter-rouge">lsusb -v</code> - but not close enough:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>Bus 001 Device 008: ID 1546:01a7 U-Blox AG
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bus 001 Device 008: ID 1546:01a7 U-Blox AG
 Device Descriptor:
   bLength                18
   bDescriptorType         1
@@ -210,15 +209,13 @@ Device Descriptor:
   iProduct                2
   iSerial                 0
   bNumConfigurations      1
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Everything is the same with the uBlox 7 chipset, except the <code class="highlighter-rouge">idProduct</code> is different: 01a7, vs. 01a6 or 01a5. So, to get uDev to launch GPSd automatically when I plug it in (or when the system boots), I just copy one of the existing lines and edit the <code class="highlighter-rouge">idProduct</code> to match mine:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># u-blox AG, u-blox 7 (Tested with VANWEI VK-162)  [linux module: cdc_acm]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># u-blox AG, u-blox 7 (Tested with VANWEI VK-162)  [linux module: cdc_acm]
 ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a7", SYMLINK+="gps%n", TAG+="systemd", ENV{SYSTEMD_WANTS}="gpsdctl@%k.service"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Reload the uDev rules and et voilà! Even better, GPSd re-maps the devices entry in /dev to <code class="highlighter-rouge">/dev/gps0</code>, which makes it easy to configure other apps like Polaric to grab position data - regardless of what receiver you use.</p>
 
@@ -231,11 +228,11 @@ ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a7", SYMLINK+="gps%n", TAG+="syste
       </div>
 
       <footer class="footer">
-  <span class="footer__copyright">&copy; 2017 Will Davidson. All rights reserved.</span>
+  <span class="footer__copyright">&copy; 2019 Kiley Davidson. All rights reserved.</span>
 </footer>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src="/js/main.js?1505097905198318000"></script>
+<script type="text/javascript" src="/js/main.js?1547982018373377000"></script>
 
 
     </div>

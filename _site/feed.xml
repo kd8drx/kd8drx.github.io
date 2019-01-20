@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>|kiloʊˈdɛltə|</title>
-    <description>Hi! I'm Will. Let's talk.</description>
+    <description>Hey, I'm Kiley. Let's talk.</description>
     <link>http://kilodelta.com/</link>
     <atom:link href="http://kilodelta.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 10 Sep 2017 19:45:05 -0700</pubDate>
-    <lastBuildDate>Sun, 10 Sep 2017 19:45:05 -0700</lastBuildDate>
-    <generator>Jekyll v3.5.2</generator>
+    <pubDate>Sun, 20 Jan 2019 03:00:18 -0800</pubDate>
+    <lastBuildDate>Sun, 20 Jan 2019 03:00:18 -0800</lastBuildDate>
+    <generator>Jekyll v3.7.4</generator>
     
       <item>
         <title>Configuring a U-Blox 7 GPS Receiver on Raspbian Jessie</title>
@@ -21,15 +21,14 @@
 
 &lt;p&gt;On Linux the job of starting services or auto-running commands when devices are plugged in are handled by a service called &lt;code class=&quot;highlighter-rouge&quot;&gt;uDev&lt;/code&gt;, which uses a somewhat &lt;a href=&quot;http://www.reactivated.net/writing_udev_rules.html&quot;&gt;cryptic language&lt;/a&gt; to define rules that trigger actions - like auto-mounting a USB hard drive when it’s plugged in. When installed on Raspbian, GPSd automatically defines rules for many receivers in &lt;code class=&quot;highlighter-rouge&quot;&gt;/lib/udev/rules.d/60-gpsd.rules&lt;/code&gt; - but doesn’t include rules for u-Blox 7 receivers:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 5 (tested with Navilock NL-402U) [linux module: cdc_acm]
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 5 (tested with Navilock NL-402U) [linux module: cdc_acm]
 ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a5&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
 # u-blox AG, u-blox 6 (tested with GNSS Evaluation Kit TCXO) [linux module: cdc_acm]
 ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a6&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Admittedly, that looks &lt;em&gt;pretty close&lt;/em&gt; to what I saw earlier from running &lt;code class=&quot;highlighter-rouge&quot;&gt;lsusb -v&lt;/code&gt; - but not close enough:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bus 001 Device 008: ID 1546:01a7 U-Blox AG
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Bus 001 Device 008: ID 1546:01a7 U-Blox AG
 Device Descriptor:
   bLength                18
   bDescriptorType         1
@@ -45,15 +44,13 @@ Device Descriptor:
   iProduct                2
   iSerial                 0
   bNumConfigurations      1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Everything is the same with the uBlox 7 chipset, except the &lt;code class=&quot;highlighter-rouge&quot;&gt;idProduct&lt;/code&gt; is different: 01a7, vs. 01a6 or 01a5. So, to get uDev to launch GPSd automatically when I plug it in (or when the system boots), I just copy one of the existing lines and edit the &lt;code class=&quot;highlighter-rouge&quot;&gt;idProduct&lt;/code&gt; to match mine:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 7 (Tested with VANWEI VK-162)  [linux module: cdc_acm]
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# u-blox AG, u-blox 7 (Tested with VANWEI VK-162)  [linux module: cdc_acm]
 ATTRS{idVendor}==&quot;1546&quot;, ATTRS{idProduct}==&quot;01a7&quot;, SYMLINK+=&quot;gps%n&quot;, TAG+=&quot;systemd&quot;, ENV{SYSTEMD_WANTS}=&quot;gpsdctl@%k.service&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Reload the uDev rules and et voilà! Even better, GPSd re-maps the devices entry in /dev to &lt;code class=&quot;highlighter-rouge&quot;&gt;/dev/gps0&lt;/code&gt;, which makes it easy to configure other apps like Polaric to grab position data - regardless of what receiver you use.&lt;/p&gt;
 </description>
