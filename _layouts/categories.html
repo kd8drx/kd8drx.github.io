@@ -1,24 +1,24 @@
 ---
 layout: default
 ---
-<h2>Tags:</h2>
-<div class="tags"> 
-{% for tagitem in site.tags  %} 
-  <a href="#{{ tagitem[0] }}">{{  tagitem[0] }}</a>
+<h2>Categories:</h2>
+<div class="categories"> 
+{% for catitem in site.categories  %} 
+  <a href="#{{ catitem[0] }}">{{  catitem[0] }}</a>
 {% endfor %}
 </div>
 
-<!-- iterate through all tags on the site --> 
-{% for tagitem in site.tags %} 
+<!-- iterate through all categories on the site --> 
+{% for catitem in site.categories %} 
   <!-- for each tag, create an anchor by using the tag name as an id --> 
-  <div id="{{ tagitem[0] }}">  
-    <h3> {{ tagitem[0] }} </h3>  <!-- for create a heading --> 
+  <div id="{{ catitem[0] }}">  
+    <h3> {{ catitem[0] }} </h3>  <!-- for create a heading --> 
 
     <ul> <!-- create the list of posts -->
       <!-- iterate through all the posts on the site --> 
       {% for post in site.posts %} 
         <!-- list only those which contain the current tag --> 
-        {% if post.tags contains tagitem[0] %} 
+        {% if post.categories contains catitem[0] %} 
             <li>
               <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
             </li>

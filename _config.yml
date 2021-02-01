@@ -1,16 +1,20 @@
-# Site settings
-title: "|kiloʊˈdɛltə|"
-description: "Hey, I'm Kiley. Let's talk."
-url: 'http://kilodelta.com'
+title: 'kilodelta'
+description: "I'm just this girl, y'know?"
+url: 'http://kilodelta.com/'
 baseurl: ''
+enableblog: false
+profileimage: https://avatars.githubusercontent.com/u/10730253
+footertext: '<a href="https://unsplash.com/photos/wxhU6CVEpFI">Background</a> by <a href="https://unsplash.com/@guillaume_merle">Guillaume Merle</a>'
 # google_analytics: 'UA-XXXXXX-X'
 # disqus_shortname: 'your-disqus-name'
+# disable_landing_page: true
 
 author:
   name: 'Kiley Davidson'
-  email: kiley@kilodelta.com
+  email: 'kiley@kilodelta.com'
   twitter_username: kilodelta
   facebook_username: kilodelta
+  instagram_username: kilodelta
   github_username:  kd8drx
   linkedin_username:  kilodelta
 
@@ -39,5 +43,5 @@ kramdown:
   # do not replace newlines by <br>s
   hard_wrap: false
 
-gems: ['jekyll-paginate']
+plugins: ['jekyll-paginate']
 exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'screenshot.png']
